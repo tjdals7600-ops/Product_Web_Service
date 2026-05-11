@@ -65,14 +65,14 @@ public class AdminController {
     }
 
     // 관리자 로그인
-    @PostMapping("/{login}")
+    @PostMapping("/login")
     public ResponseEntity<Void> login(@RequestBody LoginRequest request, HttpSession session) {
         adminService.login(request, session);
         return (ResponseEntity<Void>) ResponseEntity.status(HttpStatus.OK);
     }
 
     // 관리자 로그아웃
-    @PostMapping("/{logout}")
+    @PostMapping("/logout")
     public ResponseEntity<Void> logout(HttpSession session) {
         adminService.logout(session);
         return (ResponseEntity<Void>) ResponseEntity.status(HttpStatus.OK);

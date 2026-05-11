@@ -48,7 +48,7 @@ public class AdminService {
 
 
         // 2.저장할 엔티티 만들기
-        Admin newAdmin = new Admin(newUsername, newEmail, newPassword);
+        Admin newAdmin = new Admin(newUsername, newEmail, encodedPassword);
 
         // 3,4.db에 admin 저장, 저장한 결과 받기
         Admin savedAdmin = adminRepository.save(newAdmin);
