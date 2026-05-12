@@ -1,8 +1,6 @@
 package com.product.demo.controller;
 
-import com.product.demo.dto.ProductCreateRequest;
-import com.product.demo.dto.ProductResponse;
-import com.product.demo.dto.ProductUpdateRequest;
+import com.product.demo.dto.*;
 import com.product.demo.service.ProductService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
@@ -33,26 +31,26 @@ public class ProductController {
 
     // 상품 단건 조회
     @GetMapping("/{productId}")
-    public ResponseEntity<ProductResponse> getDetailProduct(@PathVariable Long productId) {
-        ProductResponse productGetResponseDto = productService.getDetailProduct(productId);
-        ResponseEntity<ProductResponse> response = new ResponseEntity<>(productGetResponseDto, HttpStatus.OK);
-        return response;
+    public ResponseEntity<ProductDetailResponse> getDetailProduct(@PathVariable Long productId) {
+        ProductDetailResponse productGetResponseDto = productService.getDetailProduct(productId);
+        ResponseEntity<ProductDetailResponse> detailresponse = new ResponseEntity<>(productGetResponseDto, HttpStatus.OK);
+        return detailresponse;
     }
 
     // 상품 전체 조회
     @GetMapping
-    public ResponseEntity<List<ProductResponse>> getAllProductList() {
-        List<ProductResponse> productGetAllResponseDto = productService.getAllProductList();
-        ResponseEntity<List<ProductResponse>> response = new ResponseEntity<>(productGetAllResponseDto, HttpStatus.OK);
-        return response;
+    public ResponseEntity<List<ProductListResponse>> getAllProductList() {
+        List<ProductListResponse> productGetAllResponseDto = productService.getAllProductList();
+        ResponseEntity<List<ProductListResponse>> listresponse = new ResponseEntity<>(productGetAllResponseDto, HttpStatus.OK);
+        return listresponse;
     }
 
     // 상품 수정
     @PatchMapping("/{productId}")
-    public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long productId, @RequestBody ProductUpdateRequest request, HttpSession session) {
-        ProductResponse productUpdateResponse = productService.updateProduct(productId, request, session);
-        ResponseEntity<ProductResponse> response = new ResponseEntity<>(productUpdateResponse, HttpStatus.OK);
-        return response;
+    public ResponseEntity<ProductUpdateResponse> updateProduct(@PathVariable Long productId, @RequestBody ProductUpdateRequest request, HttpSession session) {
+        ProductUpdateResponse productUpdateResponse = productService.updateProduct(productId, request, session);
+        ResponseEntity<ProductUpdateResponse> updateresponse = new ResponseEntity<>(productUpdateResponse, HttpStatus.OK);
+        return updateresponse;
     }
 
     // 상품 삭제

@@ -1,5 +1,6 @@
 package com.product.demo.service;
 
+import com.product.demo.config.PasswordEncoder;
 import com.product.demo.dto.AdminCreateRequest;
 import com.product.demo.dto.AdminResponse;
 import com.product.demo.dto.AdminUpdateRequest;
@@ -9,7 +10,6 @@ import com.product.demo.repository.AdminRepository;
 import com.product.demo.repository.ProductRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +24,7 @@ public class AdminService {
     //속성
     private final AdminRepository adminRepository;
     private final ProductRepository productRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
 
     // 관리자 생성(회원 가입)

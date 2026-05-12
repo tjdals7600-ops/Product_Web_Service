@@ -3,27 +3,21 @@ package com.product.demo.dto;
 import lombok.Getter;
 
 @Getter
-public class ProductResponse {
-
-    // 속성
+public class ProductUpdateResponse {
     private Long id;
     private String productname;
     private int price;
     private int stock;
-    private String username;
 
-    public ProductResponse(
+    public ProductUpdateResponse(
             Long id,
             String productname,
             int price,
-            int stock,
-            String username
+            int stock
     ) {
         this.id = id;
         this.productname = productname;
         this.price = price;
         this.stock = stock;
-        this.username = username;
     }
-
 }

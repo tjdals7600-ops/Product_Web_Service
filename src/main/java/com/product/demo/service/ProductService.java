@@ -1,8 +1,6 @@
 package com.product.demo.service;
 
-import com.product.demo.dto.ProductCreateRequest;
-import com.product.demo.dto.ProductResponse;
-import com.product.demo.dto.ProductUpdateRequest;
+import com.product.demo.dto.*;
 import com.product.demo.entity.Admin;
 import com.product.demo.entity.Product;
 import com.product.demo.repository.AdminRepository;
@@ -78,7 +76,7 @@ public class ProductService {
     // 상품 단건 조회
     @Transactional(readOnly = true)
     //0. 컨트롤러에서 데이터 받기
-    public ProductResponse getDetailProduct(Long adminId) {
+    public ProductDetailResponse getDetailProduct(Long adminId) {
         //1.db에서 id로 상품 조회
         Product findproduct = productRepository.findById(adminId)
                 .orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수 없습니다."));
@@ -91,7 +89,7 @@ public class ProductService {
         String responseUsername = findproduct.getAdmin().getUsername();
 
         //3.응답 dto 만들기
-        ProductResponse response = new ProductResponse(
+        ProductDetailResponse detailResponse = new ProductDetailResponse(
                 responseId,
                 responseProductName,
                 responseProductPrice,
@@ -100,24 +98,24 @@ public class ProductService {
         );
 
         //4.반환하기
-        return response;
+        return detailResponse;
     }
 
     // 상품 전체 조회
     @Transactional(readOnly = true)
-    public List<ProductResponse> getAllProductList() {
+    public List<ProductListResponse> getAllProductList() {
 
         // 1. 상품 목록 조회하기
         List<Product> findProductList = productRepository.findAll();
 
         // 2. dto 만들기 - stream
-        List<ProductResponse> productResponseList = findProductList.stream()
-                .map(product -> new ProductResponse(
+        List<ProductListResponse> productResponseList = findProductList.stream()
+                .map(product -> new ProductListResponse(
                         product.getId(),
                         product.getProductname(),
                         product.getPrice(),
-                        product.getStock(),
-                        product.getAdmin().getUsername()))
+                        product.getStock()))
+
                 .collect(Collectors.toList());
         return productResponseList;
     }
@@ -125,7 +123,7 @@ public class ProductService {
     // 상품 수정
     @Transactional
     // 1. 컨트롤러에서 데이터 받기
-    public ProductResponse updateProduct(Long productId, ProductUpdateRequest request, HttpSession session) {
+    public ProductUpdateResponse updateProduct(Long productId, ProductUpdateRequest request, HttpSession session) {
 
         // 1-1 로그인 관리자 id 조회
         Long loginAdminid = (Long) session.getAttribute("LOGIN_ADMIN_ID");
@@ -150,15 +148,13 @@ public class ProductService {
         String updateProductName = request.getProductname();
         int updatePrice = request.getPrice();
         int updateStock = request.getStock();
-
-        findProduct.updateProduct(
+        // 4. 수정한 객체 반환
+        Product updateProduct = findProduct.updateProduct(
                 updateProductName,
                 updatePrice,
                 updateStock
         );
 
-        // 4. 수정한 객체 반환
-        Product updateProduct = findProduct;
 
         // 5. 데이터 준비하기
         Long responseId = updateProduct.getId();
@@ -166,18 +162,16 @@ public class ProductService {
         int responsePrice = updateProduct.getPrice();
         int responseStock = updateProduct.getStock();
 
-        Long responseAdminId = updateProduct.getAdmin().getId();
         String responseAdminUsername = updateProduct.getAdmin().getUsername();
 
         // 6. 응답 dto 만들기
-        ProductResponse response = new ProductResponse(
+        ProductUpdateResponse updateResponse = new ProductUpdateResponse(
                 responseId,
                 responseProductName,
                 responsePrice,
-                responseStock,
-                responseAdminUsername
+                responseStock
         );
-        return response;
+        return updateResponse;
     }
 
     // 상품 삭제

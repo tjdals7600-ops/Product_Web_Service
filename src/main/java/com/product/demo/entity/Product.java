@@ -44,7 +44,7 @@ public class Product {
     }
 
     // 상품 수정
-    public void updateProduct(
+    public Product updateProduct(
             String productname,
             int price,
             int stock
@@ -52,5 +52,7 @@ public class Product {
         this.productname = productname;
         this.price = price;
         this.stock = stock;
+
+        return this;
     }
 }
